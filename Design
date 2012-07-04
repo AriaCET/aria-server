@@ -1,0 +1,17 @@
+Design.
+----------------
+Dhananjay Balan.
+
+ - Flow code.
+
+ Main -> Configuration page with two options. 1. manage clients 2. Manage channels.
+ Client manager -> add phone, delete phone.
+ Channel Manager -> delete channel, add channels.
+
+ - main screen asks authentication.
+ - Each page provides an update key which does the actual config updates.
+
+ BACKEND:
+ 	The changes are first written to a backend. update() syncs them with configuraton files.
+
+ 
