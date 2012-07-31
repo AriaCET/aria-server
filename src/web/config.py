@@ -1,2 +1,2 @@
-default_path = "/home/thomas/aria/aria_webconf"
+default_path = "."
 DB_path = default_path + "/ariaDB"
