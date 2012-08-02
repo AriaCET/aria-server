@@ -118,7 +118,7 @@ class asterisk:
                 c.execute("select GroupName from groups where GroupID = {0} ".format(group))
                 for name in c:
                         return name[0];
-        def reloadDialplan(self):
+        def reloadClientConf(self):
                 manifest='''[general]\ncontext=unauthenticated\nallowguest=no\nsrvlookup=yes\nudpbindaddr=0.0.0.0\ntcpenable=no\n\n'''
                 context='''[overhead](!)\ntype=friend
 context=LocalSets\n
