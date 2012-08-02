@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 from flask import request,make_response,Flask,render_template,redirect,url_for
-from dbconnect import *
+from asterisk import *
 
 app = Flask(__name__)
 authfail = "Please Login and try again."
@@ -21,9 +21,9 @@ def loginPage():
         resp = make_response(redirect(root))
         resp.set_cookie('username',request.form['username'])
         resp.set_cookie('password',request.form['password'])
-	return resp
+        return resp
     else:
-	return render_template('layout.html',logedin = auth())
+        return render_template('layout.html',logedin = auth())
 @app.route('/logout/')
 def logoutPage():
     resp = make_response(redirect(url_for('loginPage')))
@@ -32,88 +32,88 @@ def logoutPage():
     return resp
 
 @app.route('/addspeaker',methods=["POST"])
-def speakerAddHandle():    
+def speakerAddHandle():
     if auth():
-        f = functions();
-        result = f.addClient(request.form['number'],request.form['name'],request.form['ip'])
+        server = asterisk();
+        result = server.addClient(request.form['number'],request.form['name'],request.form['ip'])
         return redirect(root);
     else:
         return authfail
 
 @app.route('/removespeaker/<speaker>')
-def speakerRemoveHandle(speaker):    
+def speakerRemoveHandle(speaker):
     if auth():
-        f = functions();
-        f.deleteClient(speaker);
+        server = asterisk();
+        server.deleteClient(speaker);
         return redirect(root);
     else:
         return authfail
 
 @app.route('/listspeakers/')
-def speakerListHandle():    
+def speakerListHandle():
     if auth():
-        f = functions();
-        return render_template("speakermanagelist.html",clients=f.getClientsList());
+        server = asterisk();
+        return render_template("speakermanagelist.html",clients=server.getClientsList());
     else:
         return authfail
 
 @app.route('/channelmanager/')
 def channelManagerHandle():
-    if auth(): 
-        f = functions();
+    if auth():
+        server = asterisk();
         return render_template("channelmanager.html",channels=f.getGroupsList());
     else:
         return authfail
 
 @app.route('/addchannel/',methods=["POST"])
-def channelAddHandle():    
+def channelAddHandle():
     if auth():
-        f = functions();
-        f.addGroup(request.form['channelid'],request.form['channelname']);
+        server = asterisk();
+        server.addGroup(request.form['channelid'],request.form['channelname']);
         return redirect(root)
     else:
         return authfail
 
 @app.route('/removechannel/',methods=["POST"])
-def channelRemoveHandle():    
+def channelRemoveHandle():
     if auth():
-        f = functions();
+        server = asterisk();
         f.deleteGroup(request.form['channel'])
         return "Done."
     else:
         return authfail
 
 @app.route('/addtochannel/',methods=["POST"])
-def channelAddToHandle():    
+def channelAddToHandle():
     if auth():
-        f = functions();
-        f.addClientToGroup(request.form['clientid'],request.form['groupid'])
+        server = asterisk()
+        server.addClientToGroup(request.form['clientid'],request.form['groupid'])
         return "Done."
     else:
         return authfail
 
 @app.route('/removefromchannel/',methods=["POST"])
-def channelRemoveFromHandle():    
+def channelRemoveFromHandle():
     if auth():
-        f = functions();
-        f.deleteClientFromGroup(request.form['clientid'],request.form['groupid'])
+        server = asterisk()
+        server.deleteClientFromGroup(request.form['clientid'],request.form['groupid'])
         return "Done."
     else:
         return authfail
 
 @app.route('/listchannel/<channel>')
-def channelListHandle(channel):    
+def channelListHandle(channel):
     if auth():
-        f = functions()
-        return render_template("editchannel.html",speakers = f.getClientsInGroup(channel),channel = channel,channelname = f.getchname(channel))
+        server = asterisk()
+        return render_template("editchannel.html",speakers = server.getClientsInGroup(channel),channel = channel,channelname = f.getchname(channel))
     else:
         return authfail
 
 @app.route('/reloaddialplan/')
 def reloadHandle():
     if auth():
-        f = functions();
-        f.reloadDialplan();
+        server = asterisk();
+        server.reloadDialplan();
         return "Done."
     else:
         return authfail
