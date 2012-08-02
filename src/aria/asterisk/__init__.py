@@ -119,5 +119,22 @@ class asterisk:
                 for name in c:
                         return name[0];
         def reloadDialplan(self):
-                return "Done"
-                #To Do assigned to Deepak
+                manifest='''[general]\ncontext=unauthenticated\nallowguest=no\nsrvlookup=yes\nudpbindaddr=0.0.0.0\ntcpenable=no\n\n'''
+                context='''[overhead](!)\ntype=friend
+context=LocalSets\n
+host=dynamic\n
+nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
+                sipfile = open("/tmp/sip.conf","w")
+                sipfile.write(manifest)
+                sipfile.write(context)
+
+                # Write the clients
+                clients = self.getClientsList()
+
+                for client in clients:
+                        tmpstr = "\n["+str(client[0])+"](overhead)\t; Name:"+ client[1]+"\n"
+                        sipfile.write(tmpstr)
+                        if len(client[2]) != 0:
+                                tmpstr="host="+client[2]+"\n"
+                                sipfile.write(tmpstr)
+                sipfile.close()
