@@ -61,7 +61,7 @@ def speakerListHandle():
 def channelManagerHandle():
     if auth():
         server = asterisk();
-        return render_template("channelmanager.html",channels=f.getGroupsList());
+        return render_template("channelmanager.html",channels=server.getGroupsList());
     else:
         return authfail
 
