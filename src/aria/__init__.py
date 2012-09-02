@@ -78,7 +78,7 @@ def channelAddHandle():
 def channelRemoveHandle():
     if auth():
         server = asterisk();
-        f.deleteGroup(request.form['channel'])
+        server.deleteGroup(request.form['channel'])
         return "Done."
     else:
         return authfail
@@ -105,7 +105,7 @@ def channelRemoveFromHandle():
 def channelListHandle(channel):
     if auth():
         server = asterisk()
-        return render_template("editchannel.html",speakers = server.getClientsInGroup(channel),channel = channel,channelname = f.getchname(channel))
+        return render_template("editchannel.html",speakers = server.getClientsInGroup(channel),channel = channel,channelname = server.getchname(channel))
     else:
         return authfail
 
