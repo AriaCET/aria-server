@@ -138,3 +138,6 @@ nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
                                 tmpstr="host="+client[2]+"\n"
                                 sipfile.write(tmpstr)
                 sipfile.close()
+        def reloadDialplan(self):
+                self.reloadClientConf()
+                return
