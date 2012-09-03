@@ -3,12 +3,10 @@
   <tr>
     <td>
       <div id = "addclient_div">
-	<form method = "POST" action = "/addspeaker">
-	  Number:<input type = "text" name = "number"/>
-	  Name:<input type = "text" name = "name"/>
-	  IP:<input type = "text" name = "ip"/>
-	  <input type = "submit" value = "Add"/>
-	</form>
+	Number:<input type="text" id="inputspeakernumber"/>
+	Name:<input type="text" id="inputspeakername"/>
+	IP:<input type="text" id="inputspeakerip"/>
+	<input type="Button" value="Add" onclick="addSpeaker();"/>
       </div>
     </td>
   </tr>
