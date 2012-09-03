@@ -34,7 +34,7 @@ function addToChannel(speaker, channel){
 	   });
 }
 function editChannel(channel){
-    $('#SpeakersInChannelBlock').load('/listchannel/'+channel);
+    $('#speakers_in_channel_block').load('/listchannel/'+channel);
 }
 function speakerManager(){
     $('#main_block').load('/listspeakers');

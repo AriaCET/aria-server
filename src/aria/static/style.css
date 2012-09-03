@@ -1,13 +1,64 @@
-.big_menu
+#title_block
 {
-text-align:center;
-width:100%;
-background-color:#b0c4de;
-border:10;
+    width:100%;
+    font-size:36px;
+    text-align:center;
 }
-.big_menu a
+#navigation_block
 {
-    color:#222277;
-    font-size:32px;
-    text-decoration:none;
+    width:20%;
+    float:left;
+}
+#main_block
+{
+    width:80%;
+    float:right;
+}
+#speakers_in_channel_block
+{
+    float:right;
+    width:50%;
+}
+#speaker_list_table
+{
+    width:100%;
+}
+#channel_list_table
+{
+    width:50%;
+    float:left;
+}
+#reload_block
+{
+    position:absolute;
+    bottom:20px;
+}
+#credits_block
+{
+    width:100%;
+    color:#bbbbbb;
+    background-color:#000000;
+    font-size:12px;
+    position:fixed;
+    bottom:0px;
+    padding-bottom:1px;
+    text-align:center;
+    left:0px;
+}
+.table_header{
+    font-weight:bold;
+}
+#logout_form
+{
+    position:absolute;
+    right:5px;
+    top:10px;
+    z-index:1;
+}
+#auth_form
+{
+    width:100%;
+    position:fixed;
+    top:40%;
+    text-align:center;
 }

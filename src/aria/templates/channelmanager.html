@@ -1,29 +1,24 @@
 <!doctype html>
-<table>
-  <tr>
-    <td>
-      <table>
-	<tr>
-	  <td>
-	    <div class = "channellist">
-	      Channel ID :<input type = "text" id = "inputchannelid"/><br/>
-	      Channel Name:<input type = "text" id = "inputchannelname"/>
-	      <input type = "button" value = "Add Channel" onclick = "addChannel();" />
-	    </div>
-	  </td>
-	</tr>
-	{% for channel in channels%}
-	<tr>
-	  <td>
-	    <div class = "channelListItem" id = "channelNo{{channel[0]}}">
-	      <a class = "edit" href = "#" onclick = "editChannel({{ channel[0] }});">{{channel[1]}} {{channel[0]}} </a>
-	      <a class = "delete" href = "#" onclick = "deleteChannel({{ channel[0] }});">Delete Channel</a>
-	    </div>
-	  </td>
-	</tr>
-	{% endfor %}
-      </table>
-    </td>
-    <td><div id = "SpeakersInChannelBlock"></div></td>
+<div id="add_channel_block">
+  Number:<input type = "text" id = "inputchannelid"/>
+  Channel Name:<input type = "text" id = "inputchannelname"/>
+  <input type = "button" value = "Add Channel" onclick = "addChannel();" />
+</div>
+<table id="channel_list_table">
+  <tr class="table_header">
+    <td>Channel Name</td>
+    <td>Number</td>
+    <td>Channel Actions</td>
   </tr>
+  {% for channel in channels%}
+  <tr>
+    <td>{{channel[1]}}</td>
+    <td>{{channel[0]}}</td>
+    <td>
+      <a class = "edit" href = "#" onclick = "editChannel({{ channel[0] }});">Edit</a> &nbsp;
+      <a class = "delete" href = "#" onclick = "deleteChannel({{ channel[0] }});">Delete</a>
+    </td>
+  </tr>
+  {% endfor %}
 </table>
+<div id = "speakers_in_channel_block"></div>
