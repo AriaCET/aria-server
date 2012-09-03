@@ -13,7 +13,7 @@ function addSpeaker(){
     var speaker_name = $('#inputspeakername').val();
     var speaker_ip = $('#inputspeakerip').val();
     //todo: add form validation.
-    $.post('/addspeaker/',{number:speaker_number,name:speaker_name,ip:speaker_ip},
+    $.post('/addspeaker',{number:speaker_number,name:speaker_name,ip:speaker_ip},
 	   function(data){
 	       //todo: check for server errors.
 	       speakerManager();
