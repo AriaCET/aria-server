@@ -4,12 +4,14 @@
 <script type=text/javascript src="{{ url_for('static', filename='jquery.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='main.js') }}"></script>
 <body onload = "speakerManager();">
-  <div id = "title_block">Aria Web configuration.</div>
+  <div id = "title_block">ARIA Server</div>
   {% if logedin == false %}
   <form id = "auth_form" method = "POST" action = "/login">
-    Username :<input type = "text" name = "username"/>
-    Password :<input type = "password" name = "password"/>
-    <input type = "submit" value = "Login" />
+    <table>
+      <tr><td>Username</td><td> <input type = "text" name = "username"/></td></tr>
+      <tr><td>Password</td><td><input type = "password" name = "password"/></td></tr>
+      <tr><td colspan="2"><input type = "submit" value = "Login" id='login'/></td></tr>
+    </table>
   </form>
   {% else %}
   <form id = "logout_form" action = "/logout">
