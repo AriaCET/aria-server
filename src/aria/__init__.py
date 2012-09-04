@@ -1,6 +1,7 @@
 #!/usr/bin/python2
 from flask import request,make_response,Flask,render_template,redirect,url_for
 from asterisk import *
+import accs_control as key
 
 app = Flask(__name__)
 authfail = "Please Login and try again."
@@ -9,10 +10,8 @@ root = '/'
 def auth():
     username = request.cookies.get('username')
     password = request.cookies.get('password')
-    if username == "admin" and password == "login":
-        return True
-    else:
-        return False
+
+    return key.auth(username,password)
 
 @app.route('/')
 @app.route('/login',methods=["POST"])
