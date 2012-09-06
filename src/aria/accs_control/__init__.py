@@ -18,6 +18,9 @@ def auth(user,password):
         return False
 
 def read_key():
+        if not os.path.isfile(datapath):
+                print "No keyfile found, have you run ./install.py?"
+                return -1
         file = open(datapath)
         list = pickle.load(file)
         file.close()
