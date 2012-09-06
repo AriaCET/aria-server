@@ -2,5 +2,7 @@
 
 
 from aria import accs_control
-accs_control.create_key()
-print "Key created sucessfully."
+if accs_control.create_key():
+    print "Key created sucessfully."
+else:
+    print "Null length input forund! - Not updating"

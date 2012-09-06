@@ -30,12 +30,12 @@ def create_key():
         username = str(raw_input("Enter Username:"))
         password = str(raw_input("Password:"))
 
+        if(len(username) == 0 or len(password) == 0):
+                return 0
         pashash.update(password)
         password = pashash.hexdigest()
         list.append(username)
         list.append(password)
         pickle.dump(list,file)
         file.close()
-
-if __name__ == "__main__":
-        create_key()
+        return 1
