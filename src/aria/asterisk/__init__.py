@@ -1,12 +1,12 @@
 import sqlite3
 import os
-from config import *
+import config
 
 class connection:
         def __init__(self):
                 print "Connection object created"
 
-        def connectDB(self,DBpath=DB_path):
+        def connectDB(self,DBpath=config.DB_path):
 
                 if not(os.path.exists(os.path.dirname(DBpath))):
                         raise IOError('Invalid database path_1')
@@ -124,7 +124,7 @@ class asterisk:
 context=LocalSets\n
 host=dynamic\n
 nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
-                sipfile = open("/tmp/sip.conf","w")
+                sipfile = open(config.clientConf,"w")
                 sipfile.write(manifest)
                 sipfile.write(context)
 
@@ -140,7 +140,7 @@ nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
                 sipfile.close()
 
         def reloadChannelConf(self):
-                extfile = open("/tmp/channel.conf","w")
+                extfile = open(config.channelConf,"w")
 
                 for member in self.getGroupsList():
                         clients = self.getClientsInGroup(member[0])
