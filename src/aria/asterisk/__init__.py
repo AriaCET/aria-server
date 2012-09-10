@@ -161,9 +161,9 @@ nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
                 sipReload.wait()
                 dialplanReload = subprocess.Popen(["asterisk","-rx","dialplan reload"],stdout=subprocess.PIPE)
                 dialplanReload.wait()
-                return sipReload.poll() and dialplanRelaod.poll()
+                return (sipReload.poll() and dialplanRelaod.poll())
 
         def reloadDialplan(self):
                 self.reloadClientConf()
                 self.reloadChannelConf()
-                #self.reloadAsterisk()
+                self.reloadAsterisk()
