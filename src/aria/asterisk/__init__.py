@@ -1,6 +1,7 @@
 import sqlite3
 import os
 import config
+import subprocess
 
 class connection:
         def __init__(self):
@@ -153,9 +154,13 @@ nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
 
                 extfile.close()
 
-
+	def reloadAsterisk(self):
+		sipReload = subprocess.Popen(["asterisk","-rx","sip reload"],stdout=subprocess.PIPE)
+		sipReload.wait()
+		dialplanReload = subprocess.Popen(["asterisk","-rx","dialplan reload"],stdout=subprocess.PIPE)
+		dialplanReload.wait()
+		return sipReload.poll() and dialplanRelaod.poll()
 
         def reloadDialplan(self):
-                self.reloadClientConf()
-                self.reloadChannelConf()
-                return
+                return self.reloadClientConf() and self.reloadChannelConf() and self.reloadAsterisk()
+                
