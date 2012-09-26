@@ -149,7 +149,8 @@ nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
                         clients = self.getClientsInGroup(member[0])
                         pagestr = "exten => " +str(member[0])+",1,Page("
                         for ct in clients:
-                                pagestr = pagestr + "sip/"+str(ct[0])+"&"
+                                if ct[2] == member[0]:
+                                        pagestr = pagestr + "sip/"+str(ct[0])+"&"
                         pagestr = pagestr[:-1] + ",i,120)\t;"+str(member[1])+"\n"
                         pagestr = pagestr + "exten => "+str(member[0])+",2,Hangup()\n\n"
                         extfile.write(pagestr)
