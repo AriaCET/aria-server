@@ -141,26 +141,30 @@ nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
                 sipfile.close()
 
         def reloadChannelConf(self):
+                manifest = '''[general]\n\n[LocalSets]\n'''
                 extfile = open(config.channelConf,"w")
+                extfile.write(manifest)
 
                 for member in self.getGroupsList():
                         clients = self.getClientsInGroup(member[0])
-                        pagestr = "exten =>" +str(member[0])+",1,Page("
+                        pagestr = "exten => " +str(member[0])+",1,Page("
                         for ct in clients:
-                                pagestr = pagestr + "sip/"+str(ct[0])+"&"
+                                if ct[2] == member[0]:
+                                        pagestr = pagestr + "sip/"+str(ct[0])+"&"
                         pagestr = pagestr[:-1] + ",i,120)\t;"+str(member[1])+"\n"
-                        pagestr = pagestr + "\t=>"+str(member[0])+",2,Hangup()\n\n"
+                        pagestr = pagestr + "exten => "+str(member[0])+",2,Hangup()\n\n"
                         extfile.write(pagestr)
 
                 extfile.close()
 
-	def reloadAsterisk(self):
-		sipReload = subprocess.Popen(["asterisk","-rx","sip reload"],stdout=subprocess.PIPE)
-		sipReload.wait()
-		dialplanReload = subprocess.Popen(["asterisk","-rx","dialplan reload"],stdout=subprocess.PIPE)
-		dialplanReload.wait()
-		return sipReload.poll() and dialplanRelaod.poll()
+        def reloadAsterisk(self):
+                sipReload = subprocess.Popen(["asterisk","-rx","sip reload"],stdout=subprocess.PIPE)
+                sipReload.wait()
+                dialplanReload = subprocess.Popen(["asterisk","-rx","dialplan reload"],stdout=subprocess.PIPE)
+                dialplanReload.wait()
+                return (sipReload.poll() and dialplanRelaod.poll())
 
         def reloadDialplan(self):
-                return self.reloadClientConf() and self.reloadChannelConf() and self.reloadAsterisk()
-                
+                self.reloadClientConf()
+                self.reloadChannelConf()
+                self.reloadAsterisk()
