@@ -1,5 +1,5 @@
 import os
-asteriskconf='/tmp/'
+asteriskconf='/etc/asterisk'
 default_path = os.getenv('HOME')
 
 DB_path = os.path.join(default_path,".ariaDB")
