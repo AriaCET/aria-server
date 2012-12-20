@@ -5,7 +5,8 @@ import pickle
 import os
 
 HOME = os.getenv("HOME")
-datapath=os.path.join(HOME,'.aria_key')
+configDir = os.path.join(HOME, '.aria')
+datapath=os.path.join(configDir,'aria_key')
 
 def auth(user,password):
         key = read_key()
@@ -27,6 +28,10 @@ def read_key():
         return list
 
 def create_key():
+        try:
+                os.makedirs(configDir)
+        except OSError:
+                pass
         file = open(datapath,"w")
         pashash = md5.new()
         list = []

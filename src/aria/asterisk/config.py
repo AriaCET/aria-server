@@ -1,7 +1,8 @@
 import os
 asteriskconf='/etc/asterisk'
-default_path = "aria"
 
+HOME = os.getenv("HOME")
+default_path = os.path.join(HOME, '.aria')
 DB_path = os.path.join(default_path,"ariaDB")
 
 clientConf = os.path.join(asteriskconf,'sip.conf')
