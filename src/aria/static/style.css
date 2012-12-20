@@ -3,8 +3,13 @@ body
     margin:0px;
     font-family:serif;
 }
+
+a
+{	text-decoration:none;
+}
+
 #title_block
-{
+{   
     width:100%;
     font-size:36px;
     background-color:#000000;
@@ -12,9 +17,11 @@ body
     //font-family:"Serif";
     text-align:center;
 }
+
 #navigation_block
 {
     width:20%;
+    
     float:left;
 }
 #main_block
@@ -24,8 +31,7 @@ body
 }
 #speakers_in_channel_block
 {
-    float:right;
-    width:50%;
+    
 }
 #speaker_list_table
 {
@@ -68,8 +74,8 @@ body
     padding: 25px; 
     background-color: #000000;
     position:absolute;
-    top:50%;
-    right:10%;
+    top:35%;
+    left:40%;
     color: #bbbbbb;
     //text-align:center;
 

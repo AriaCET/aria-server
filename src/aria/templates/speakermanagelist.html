@@ -1,20 +1,24 @@
 <!doctype html>
+<br/>
 <div id = "addclient_div">
   Number:<input type="text" id="inputspeakernumber"/>
   Name:<input type="text" id="inputspeakername"/>
   IP:<input type="text" id="inputspeakerip"/>
   <input type="Button" value="Add Speaker" onclick="addSpeaker();"/>
 </div>
+<br/>
+<hr/>
 <table id="speaker_list_table">
   <tr class="table_header">
-    <td>Number</td><td>Name</td><td>IP</td><td>Delete</td>
+    <td>Number<hr/></td><td>Name<hr/></td><td>IP<hr/></td><td>Action<hr/></td>
   </tr>
   {% for client in clients %}
   <tr>
     <td>{{ client[0] }} </td>
     <td> {{client[1]}} </td>
     <td> {{client[2]}} </td>
-    <td> <a href = '/removespeaker/{{ client[0] }}'>Delete</a></td>
+    <td> <a href = '/removespeaker/{{ client[0] }}'><img width=16 src="{{ url_for('static', filename='delete.png') }}" />&nbsp;Delete</a></td>
   </tr>
   {% endfor %}
 </table>
+<hr/>

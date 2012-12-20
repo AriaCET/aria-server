@@ -17,9 +17,10 @@
   <form id = "logout_form" action = "/logout">
     <input type = "submit" value = "Logout" />
   </form>
+  <br/>
   <div id = "navigation_block">
-    <div id = "speaker_man_link_block"><a href = "#" OnClick = "speakerManager();">Manage Speakers</a></div>
-    <div id = "channel_man_link_block"><a href = "#" OnClick = "channelManager();">Manage Channels</a></div>
+    <div id = "speaker_man_link_block"><a href = "#" OnClick = "speakerManager();"><img width=16 src="{{ url_for('static', filename='config.png') }}" />&nbsp;Manage Speakers</a></div>
+    <div id = "channel_man_link_block"><a href = "#" OnClick = "channelManager();"><img width=16 src="{{ url_for('static', filename='config.png') }}" />&nbsp;Manage Channels</a></div>
   </div>
   <div id = "main_block"></div>
   <div id = "reload_block"><input type = "Button" onClick = "reloadDialplan();" value = "Reload Dialplan." /></div>
