@@ -1,4 +1,26 @@
 function addChannel(){
+    
+	if( $('#inputchannelid').val() && $('#inputchannelname').val() ) 
+	{	if($('#inputchannelid').val() >= 500 && $('#inputchannelid').val() <=600)
+		{	    var channel_id = $('#inputchannelid').val();
+			    var channel_name = $('#inputchannelname').val();
+			    //todo: add form validation.
+			    $.post('/addchannel/',{channelid:channel_id ,channelname:channel_name},
+				   function(data){
+				       //todo: check for server errors.
+				       channelManager();
+				   });    
+		}
+		else
+		{	alert('Channel Number should be in the range 500-600');
+		}
+	}
+	else
+	{	alert('Field(s) empty!');
+	}
+
+
+    /*
     var channel_id = $('#inputchannelid').val();
     var channel_name = $('#inputchannelname').val();
     //todo: add form validation.
@@ -7,8 +29,30 @@ function addChannel(){
 	       //todo: check for server errors.
 	       channelManager();
 	   });
+	*/
 }
-function addSpeaker(){
+function addSpeaker()
+{
+    if( $('#inputspeakernumber').val() && $('#inputspeakername').val() && $('#inputspeakerip').val() ) 
+	{	if($('#inputspeakernumber').val() >= 100 && $('#inputspeakernumber').val() <=300)
+		{	    var speaker_number = $('#inputspeakernumber').val();
+			    var speaker_name = $('#inputspeakername').val();
+			    var speaker_ip = $('#inputspeakerip').val();
+			    //todo: add form validation.
+			    $.post('/addspeaker',{number:speaker_number,name:speaker_name,ip:speaker_ip},
+				   function(data){
+				       //todo: check for server errors.
+				       speakerManager();
+				   });
+		}
+		else
+		{	alert('Speaker Number should be in the range 100-300');
+		}
+	}
+	else
+	{	alert('Field(s) empty!');
+	}
+/*
     var speaker_number = $('#inputspeakernumber').val();
     var speaker_name = $('#inputspeakername').val();
     var speaker_ip = $('#inputspeakerip').val();
@@ -18,6 +62,8 @@ function addSpeaker(){
 	       //todo: check for server errors.
 	       speakerManager();
 	   });
+*/
+
 }
 function removeFromChannel(speaker, channel){
     $.post('/removefromchannel/',{clientid:speaker,groupid:channel},
@@ -52,3 +98,4 @@ function deleteChannel(channelid){
 function reloadDialplan(){
     $.get('/reloaddialplan/');
 }
+
