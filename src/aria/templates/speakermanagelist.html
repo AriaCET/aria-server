@@ -10,7 +10,7 @@
 <hr/>
 <table id="speaker_list_table">
   <tr class="table_header">
-    <td>Number<hr/></td><td>Name<hr/></td><td>IP<hr/></td><td>Action<hr/></td>
+    <td>Number<hr/></td><td>Name<hr/></td><td>IP<hr/></td><td>Action<hr/></td><td>Password<hr/></td>
   </tr>
   {% for client in clients %}
   <tr>
@@ -18,7 +18,8 @@
     <td> {{client[1]}} </td>
     <td> {{client[2]}} </td>
     <td> <a href = '/removespeaker/{{ client[0] }}'><img width=16 src="{{ url_for('static', filename='delete.png') }}" />&nbsp;Delete</a></td>
-  </tr>
+    <td> <input type="password" id="speaker_pass_{{client[0]}}"/><input type="Button" value="Update" onclick=";"/></td> 
+ </tr>
   {% endfor %}
 </table>
 <hr/>
