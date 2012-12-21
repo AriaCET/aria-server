@@ -116,6 +116,26 @@ def reloadHandle():
         return "Done."
     else:
         return authfail
+@app.route('/passwordmanager/')
+def passwordmanager():
+    if auth():
+        return render_template("passwordmanager.html")
+    else:
+        return authfail
+@app.route('/changepassword/',methods=["POST"])
+def function():
+    if auth():
+        password = request.form['password']
+        rpassword = request.form['rpassword']
+        if password == rpassword :
+            server = asterisk()
+            server.setpassword(password)
+            return "Done."
+        else:
+            pass
+    else:
+        return authfail
+    
 
 if __name__ == '__main__':
     app.debug = True

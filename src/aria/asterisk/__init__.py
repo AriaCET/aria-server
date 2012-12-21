@@ -24,6 +24,11 @@ class connection:
                         c.execute('create table clients(ClientID integer primary key,ClientName text,IP text not null)')
                         c.execute('create table groups(GroupID integer primary key,GroupName text)')
                         c.execute('create table assoc(cID integer,gID integer,primary key(cID,gID))')
+                        c.executescript("""
+                                create table clientconfig(password text);
+                                insert into clientconfig(password) values ('welcome');
+                                """)
+
                         conn.commit()
                         return conn
 #raise IOError('Invalid database path');
@@ -32,6 +37,13 @@ class connection:
 class asterisk:
 
         connect = connection()
+
+        def getPassword(self):
+                conn = self.connect.connectDB()
+                c = conn.cursor()
+                c.execute("select password from clientconfig")
+                password = c.fetchone()[0]
+                return password
 
         def getClientsList(self):
 
@@ -120,11 +132,9 @@ class asterisk:
                 for name in c:
                         return name[0];
         def reloadClientConf(self):
+                password = self.getPassword()
                 manifest='''[general]\ncontext=unauthenticated\nallowguest=no\nsrvlookup=yes\nudpbindaddr=0.0.0.0\ntcpenable=no\n\n'''
-                context='''[overhead](!)\ntype=friend
-context=LocalSets\n
-host=dynamic\n
-nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
+                context="[overhead](!)\ntype=friend\ncontext=LocalSets\nhost=dynamic\nnat=yes\nsecret="+ password+"\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n"
                 sipfile = open(config.clientConf,"w")
                 sipfile.write(manifest)
                 sipfile.write(context)
@@ -156,13 +166,20 @@ nat=yes\nsecret=welcome\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n'''
                         extfile.write(pagestr)
 
                 extfile.close()
+        def setpassword(self,password):
+                conn = self.connect.connectDB()
+                c = conn.cursor()
+                c.execute("delete from clientconfig")
+                c.execute("insert into clientconfig(password) values ('{0}')".format(password))
+                conn.commit();
+                c.close();
 
         def reloadAsterisk(self):
                 sipReload = subprocess.Popen(["asterisk","-rx","sip reload"],stdout=subprocess.PIPE)
                 sipReload.wait()
                 dialplanReload = subprocess.Popen(["asterisk","-rx","dialplan reload"],stdout=subprocess.PIPE)
                 dialplanReload.wait()
-                return (sipReload.poll() and dialplanRelaod.poll())
+                return (sipReload.poll() and dialplanReload.poll())
 
         def reloadDialplan(self):
                 self.reloadClientConf()
