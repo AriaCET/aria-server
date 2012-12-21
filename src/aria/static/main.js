@@ -1,8 +1,8 @@
 function addChannel(){
     
-	if( $('#inputchannelid').val() && $('#inputchannelname').val() ) 
-	{	if($('#inputchannelid').val() >= 500 && $('#inputchannelid').val() <=600)
-		{	    var channel_id = $('#inputchannelid').val();
+	if( $('#inputchannelid').val() && $('#inputchannelname').val() ) {
+		if($('#inputchannelid').val() >= 500 && $('#inputchannelid').val() <=600) {
+			    var channel_id = $('#inputchannelid').val();
 			    var channel_name = $('#inputchannelname').val();
 			    //todo: add form validation.
 			    $.post('/addchannel/',{channelid:channel_id ,channelname:channel_name},
@@ -10,26 +10,12 @@ function addChannel(){
 				       //todo: check for server errors.
 				       channelManager();
 				   });    
+		} else {
+			alert('Channel Number should be in the range 500-600');
 		}
-		else
-		{	alert('Channel Number should be in the range 500-600');
-		}
+	} else {
+		alert('Field(s) empty!');
 	}
-	else
-	{	alert('Field(s) empty!');
-	}
-
-
-    /*
-    var channel_id = $('#inputchannelid').val();
-    var channel_name = $('#inputchannelname').val();
-    //todo: add form validation.
-    $.post('/addchannel/',{channelid:channel_id ,channelname:channel_name},
-	   function(data){
-	       //todo: check for server errors.
-	       channelManager();
-	   });
-	*/
 }
 function addSpeaker()
 {
@@ -62,10 +48,10 @@ function changePassword(){
 			var password_val = $('#password').val();
 			var rpassword_val = $('#rpassword').val();
 			$.post('/changepassword',{password:password_val,rpassword:rpassword_val},
-					   function(data){
-				    	   //todo: check for server errors.
-				    	   speakerManager();
-				   	});
+				function(data){
+				//todo: check for server errors.
+				speakerManager();
+			});
 		}else{
 			alert('Passwords do not match !');
 		}

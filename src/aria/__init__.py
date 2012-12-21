@@ -122,7 +122,7 @@ def passwordmanager():
         return render_template("passwordmanager.html")
     else:
         return authfail
-@app.route('/changepassword/',methods=["POST"])
+@app.route('/changepassword',methods=["POST"])
 def function():
     if auth():
         password = request.form['password']
@@ -130,6 +130,7 @@ def function():
         if password == rpassword :
             server = asterisk()
             server.setpassword(password)
+            print "test"
             return "Done."
         else:
             pass
