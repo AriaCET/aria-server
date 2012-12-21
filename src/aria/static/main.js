@@ -78,12 +78,22 @@ function editChannel(channel){
     $('#speakers_in_channel_block').load('/listchannel/'+channel);
 }
 function speakerManager(){
+    document.getElementById("speaker_man_link_block").style.fontWeight = 'bold';
+    document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
+    //alert($('#speaker_man_link_block').val());    
     $('#main_block').load('/listspeakers');
 }
 function channelManager(){
-    $('#main_block').load('/channelmanager');
+	document.getElementById("channel_man_link_block").style.fontWeight = 'bold';
+	document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
+    	document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
+	$('#main_block').load('/channelmanager');
 }
 function passwordManager(){
+	document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'bold';
+	document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
+    	document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';	
 	$('#main_block').load('/passwordmanager');
 }
 function deleteChannel(channelid){
