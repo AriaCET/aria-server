@@ -3,17 +3,22 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 <script type=text/javascript src="{{ url_for('static', filename='jquery.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='main.js') }}"></script>
-<body onload = "speakerManager();">
+{% if logedin == false %}
+<body>
   <div id = "title_block">ARIA Server</div>
-  {% if logedin == false %}
   <form id = "auth_form" method = "POST" action = "/login">
     <table>
       <tr><td>Username</td><td> <input type = "text" name = "username"/></td></tr>
       <tr><td>Password</td><td><input type = "password" name = "password"/></td></tr>
       <tr><td colspan="2"><input type = "submit" value = "Login" id='login'/></td></tr>
+      {% if loginFailed == True %}
+      <tr><td colspan="2"><font color="red" style="font-size: small;"> The username or password is incorrect.</font></td></tr>
+      {% endif %}
     </table>
   </form>
-  {% else %}
+{% else %}
+<body onload = "speakerManager();">
+  <div id = "title_block">ARIA Server</div>
   <form id = "logout_form" action = "/logout">
     <input type = "submit" value = "Logout" />
   </form>

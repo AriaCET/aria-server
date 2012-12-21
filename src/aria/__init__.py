@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-from flask import request,make_response,Flask,render_template,redirect,url_for
+from flask import request,make_response,Flask,render_template,redirect,url_for,send_from_directory
 from asterisk import *
 import accs_control as key
 
@@ -20,7 +20,10 @@ def loginPage():
         resp = make_response(redirect(root))
         resp.set_cookie('username',request.form['username'])
         resp.set_cookie('password',request.form['password'])
-        return resp
+        if key.auth (request.form['username'],request.form['password']):
+            return resp
+        else :
+            return render_template('layout.html',logedin = auth(),loginFailed = True)
     else:
         return render_template('layout.html',logedin = auth())
 @app.route('/logout/')
@@ -34,8 +37,11 @@ def logoutPage():
 def speakerAddHandle():
     if auth():
         server = asterisk();
-        result = server.addClient(request.form['number'],request.form['name'],request.form['ip'])
-        return redirect(root);
+        try:
+            result = server.addClient(request.form['number'],request.form['name'],request.form['ip'])
+            return "Done."
+        except Exception ,e:
+            return "Speakers Not Added"
     else:
         return authfail
 
@@ -44,7 +50,7 @@ def speakerRemoveHandle(speaker):
     if auth():
         server = asterisk();
         server.deleteClient(speaker);
-        return redirect(root);
+        return redirect(root)
     else:
         return authfail
 
@@ -68,8 +74,11 @@ def channelManagerHandle():
 def channelAddHandle():
     if auth():
         server = asterisk();
-        server.addGroup(request.form['channelid'],request.form['channelname']);
-        return redirect(root)
+        try:
+            server.addGroup(request.form['channelid'],request.form['channelname']);
+            return "Done."
+        except Exception:
+            return "Error:Channel not added"
     else:
         return authfail
 
@@ -77,8 +86,11 @@ def channelAddHandle():
 def channelRemoveHandle():
     if auth():
         server = asterisk();
-        server.deleteGroup(request.form['channel'])
-        return "Done."
+        try:
+            server.deleteGroup(request.form['channel'])
+            return "Done."
+        except Exception, e:
+            return "Error"
     else:
         return authfail
 
@@ -86,8 +98,11 @@ def channelRemoveHandle():
 def channelAddToHandle():
     if auth():
         server = asterisk()
-        server.addClientToGroup(request.form['clientid'],request.form['groupid'])
-        return "Done."
+        try:
+            server.addClientToGroup(request.form['clientid'],request.form['groupid'])
+            return "Done."
+        except Exception, e:
+            return "Error"
     else:
         return authfail
 
@@ -95,8 +110,11 @@ def channelAddToHandle():
 def channelRemoveFromHandle():
     if auth():
         server = asterisk()
-        server.deleteClientFromGroup(request.form['clientid'],request.form['groupid'])
-        return "Done."
+        try:
+            server.deleteClientFromGroup(request.form['clientid'],request.form['groupid'])
+            return "Done."
+        except Exception, e:
+            return "Error"
     else:
         return authfail
 
@@ -112,8 +130,11 @@ def channelListHandle(channel):
 def reloadHandle():
     if auth():
         server = asterisk();
-        server.reloadDialplan();
-        return "Done."
+        try:
+            server.reloadDialplan();
+            return "Done."
+        except Exception, e:
+            return "Error"
     else:
         return authfail
 @app.route('/passwordmanager/')
@@ -130,14 +151,16 @@ def function():
         if password == rpassword :
             server = asterisk()
             server.setpassword(password)
-            print "test"
             return "Done."
         else:
-            pass
+            return "Error"
     else:
         return authfail
-    
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.root_path+'/static','favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0',debug = True)
+    app.run(host='0.0.0.0')

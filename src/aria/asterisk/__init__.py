@@ -78,6 +78,9 @@ class asterisk:
 
                 conn = self.connect.connectDB()
                 c = conn.cursor()
+                if len(ip) == 0:
+                        #set default IP
+                        pass 
                 c.execute("insert into clients values ( {0}, '{1}', '{2}')".format(c_id,name,ip))
                 conn.commit()
                 c.close()

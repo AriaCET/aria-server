@@ -7,6 +7,7 @@ function addChannel(){
 			    //todo: add form validation.
 			    $.post('/addchannel/',{channelid:channel_id ,channelname:channel_name},
 				   function(data){
+				   		if(data !="Done.") alert(data);
 				       //todo: check for server errors.
 				       channelManager();
 				   });    
@@ -29,6 +30,7 @@ function addSpeaker()
 			    	$.post('/addspeaker',{number:speaker_number,name:speaker_name,ip:speaker_ip},
 					   function(data){
 				    	   //todo: check for server errors.
+				    	   if(data !="Done.") alert(data);
 				    	   speakerManager();
 				   	});
 			}else {
@@ -49,8 +51,9 @@ function changePassword(){
 			var rpassword_val = $('#rpassword').val();
 			$.post('/changepassword',{password:password_val,rpassword:rpassword_val},
 				function(data){
-				//todo: check for server errors.
-				speakerManager();
+					if(data !="Done.") alert(data);
+					//todo: check for server errors.
+					speakerManager();
 			});
 		}else{
 			alert('Passwords do not match !');
@@ -63,6 +66,7 @@ function changePassword(){
 function removeFromChannel(speaker, channel){
     $.post('/removefromchannel/',{clientid:speaker,groupid:channel},
 	   function(data){
+	   		if(data !="Done.") alert(data);
 	       //todo: check for server errors.
 	       editChannel(channel);   
 	   });
@@ -70,6 +74,7 @@ function removeFromChannel(speaker, channel){
 function addToChannel(speaker, channel){
     $.post('/addtochannel/',{clientid:speaker,groupid:channel},
 	   function(data){
+	   		if(data !="Done.") alert(data);
 	       //todo: check for server errors.
 	       editChannel(channel);
 	   });
@@ -80,30 +85,33 @@ function editChannel(channel){
 function speakerManager(){
     document.getElementById("speaker_man_link_block").style.fontWeight = 'bold';
     document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
-    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
-    //alert($('#speaker_man_link_block').val());    
+    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';   
     $('#main_block').load('/listspeakers');
 }
 function channelManager(){
 	document.getElementById("channel_man_link_block").style.fontWeight = 'bold';
 	document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
-    	document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
 	$('#main_block').load('/channelmanager');
 }
 function passwordManager(){
 	document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'bold';
 	document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
-    	document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';	
+    document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';	
 	$('#main_block').load('/passwordmanager');
 }
 function deleteChannel(channelid){
     $.post('/removechannel/',{channel:channelid},
 	   function(data){
+	   		if(data !="Done.") alert(data);
 	       //todo: check for server errors.
 	       $('#main_block').load('/channelmanager');
 	   });
 }
 function reloadDialplan(){
-    $.get('/reloaddialplan/');
+    $.get('/reloaddialplan/',function(data){
+	   		if(data !="Done.") alert(data);
+	       //todo: check for server errors.
+	   });
 }
 
