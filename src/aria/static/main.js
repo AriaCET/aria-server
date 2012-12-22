@@ -115,3 +115,11 @@ function reloadDialplan(){
 	   });
 }
 
+$(document).ready(function(){
+	$('#footer').mouseover(function() {
+  		$(this).find('#credits_hidden_block').toggle(true);
+	});
+	$('#footer').mouseleave(function() {
+		$(this).find('#credits_hidden_block').toggle(false);
+	});
+});
