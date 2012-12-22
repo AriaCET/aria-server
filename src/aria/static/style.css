@@ -13,7 +13,7 @@ a
     width:100%;
     font-size:36px;
     color:#bbbbbb;
-    //font-family:"Serif";
+    font-family:"Serif";
     text-align:center;
     background: #303030;
 }
@@ -88,8 +88,20 @@ a
 {
     display: none;
     background: #303030;
+    text-align: center;
+    width: 100; 
 }
-#credits_block a
+#credits_hidden_block hr
+{
+    border: 0;
+    border-bottom: 1px dashed;
+    background: #303030;
+    margin-bottom: 0.5px;
+    margin-top: 0.5px;
+    margin-left:30;
+    margin-right: 30;
+}
+#footer a
 {
     color: #bbbbbb;
 }
@@ -121,7 +133,6 @@ a
 }
 #logout,#login
 {
-    background: url(menu.png);
     color: #ffffff;
     font-family:arial;
     font-size:15px;
@@ -137,4 +148,9 @@ a
     font-weight:bold;
     color: red;
     font-size: small;
+}
+.footer_table
+{
+    font-size: 12px;
+    width: 450px;
 }
