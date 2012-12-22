@@ -7,6 +7,7 @@
   <input type="Button" value="Add Speaker" onclick="addSpeaker();"/>
 </div>
 <br/>
+{% if clients %}
 <hr/>
 <table id="speaker_list_table">
   <tr class="table_header">
@@ -22,3 +23,8 @@
   {% endfor %}
 </table>
 <hr/>
+{% else %}
+    <hr/>
+    <b>No Speakers Found</b>
+    <hr/>
+{% endif %}

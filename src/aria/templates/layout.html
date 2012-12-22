@@ -6,13 +6,14 @@
 {% if logedin == false %}
 <body>
   <div id = "title_block">ARIA Server</div>
+  <div id = "title_block_t"></div>
   <form id = "auth_form" method = "POST" action = "/login">
     <table>
       <tr><td>Username</td><td> <input type = "text" name = "username"/></td></tr>
       <tr><td>Password</td><td><input type = "password" name = "password"/></td></tr>
       <tr><td colspan="2"><input type = "submit" value = "Login" id='login'/></td></tr>
       {% if loginFailed == True %}
-      <tr><td colspan="2"><font color="red" style="font-size: small;"> The username or password is incorrect.</font></td></tr>
+      <tr><td colspan="2" id ="login_err">The username or password is incorrect.</td></tr>
       {% endif %}
     </table>
   </form>
@@ -20,8 +21,9 @@
 <body onload = "speakerManager();">
   <div id = "title_block">ARIA Server</div>
   <form id = "logout_form" action = "/logout">
-    <input type = "submit" value = "Logout" />
+    <input type = "submit" id ="logout" value = "Logout" />
   </form>
+  <div id = "title_block_t"></div>
   <br/>
   <div id = "navigation_block">
     <div id = "speaker_man_link_block"><a href = "#" OnClick = "speakerManager();"><img width=16 src="{{ url_for('static', filename='config.png') }}" />&nbsp;Manage Speakers</a></div>
@@ -31,5 +33,14 @@
   <div id = "main_block"></div>
   <div id = "reload_block"><input type = "Button" onClick = "reloadDialplan();" value = "Reload Dialplan." /></div>
   {% endif %}
-  <div id = "credits_block">Developed at Department of Computer Science and Engineering, <a href='http://cet.ac.in'>College of Engineering Trivandrum.</a></div>
+  <div id = "footer">
+    <div id ="footer_t"></div>
+    <div id="credits_hidden_block">
+      #credits goes here
+    </div>
+    <div id="credits_block">
+      Developed at Department of Computer Science and Engineering,<br/>
+      <a href='http://cet.ac.in'>College of Engineering, Trivandrum.</a>
+    </div>
+  </div>
 </body>

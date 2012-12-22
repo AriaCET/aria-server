@@ -26,11 +26,18 @@ def loginPage():
             return render_template('layout.html',logedin = auth(),loginFailed = True)
     else:
         return render_template('layout.html',logedin = auth())
+
 @app.route('/logout/')
 def logoutPage():
+    server = asterisk()
+    try:
+        server.reloadDialplan()
+    except Exception, e:
+        pass
     resp = make_response(redirect(url_for('loginPage')))
     resp.set_cookie('username'," ")
     resp.set_cookie('password'," ")
+
     return resp
 
 @app.route('/addspeaker',methods=["POST"])
@@ -137,12 +144,14 @@ def reloadHandle():
             return "Error"
     else:
         return authfail
+
 @app.route('/passwordmanager/')
 def passwordmanager():
     if auth():
         return render_template("passwordmanager.html")
     else:
         return authfail
+
 @app.route('/changepassword',methods=["POST"])
 def function():
     if auth():

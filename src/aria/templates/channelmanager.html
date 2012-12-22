@@ -6,6 +6,7 @@
   <input type = "button" value = "Add Channel" onclick = "addChannel();" />
 </div>
 <br/>
+{% if channels %}
 <hr/>
 <br/>
 <table id="channel_list_table" border=0>
@@ -29,3 +30,8 @@
 <hr/>
 <br/>
 <div id = "speakers_in_channel_block"></div>
+{% else %}
+    <hr/>
+    <b>No Channels Found</b>
+    <hr/>
+{% endif %}

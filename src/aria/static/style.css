@@ -12,16 +12,21 @@ a
 {   
     width:100%;
     font-size:36px;
-    background-color:#000000;
     color:#bbbbbb;
     //font-family:"Serif";
     text-align:center;
+    background: #303030;
+}
+#title_block_t
+{
+    height:30px;
+    overflow:auto;
+    background: #303030 url(header.png) repeat-x bottom;
 }
 
 #navigation_block
 {
-    width:20%;
-    
+    width:20%;    
     float:left;
 }
 #main_block
@@ -44,21 +49,51 @@ a
 }
 #reload_block
 {
-    position:absolute;
-    bottom:20px;
+    position: absolute;
+    left: 20px;
+    bottom: 90px;
 }
-#credits_block
+
+#footer
 {
     width:100%;
     color:#bbbbbb;
-    background-color:#000000;
-    font-size:12px;
     position:fixed;
     bottom:0px;
     padding-bottom:1px;
+}
+
+
+#footer_t
+{
+    height:35px;
+    overflow:auto;
+    background: #303030 url(footer.png) repeat-x top;
+}
+
+.footer_clean 
+{
+    background-color: #303030;
+    height: 15px;
+}
+
+#credits_block
+{
+    font-size:12px;
     text-align:center;
     left:0px;
+    background: #303030 ;
 }
+#credits_hidden_block
+{
+    display: none;
+    background: #303030;
+}
+#credits_block a
+{
+    color: #bbbbbb;
+}
+
 .table_header{
     font-weight:bold;
 }
@@ -72,15 +107,34 @@ a
 #auth_form
 {   
     padding: 25px; 
-    background-color: #000000;
+    background-color: #303030;
     position:absolute;
     top:35%;
     left:40%;
     color: #bbbbbb;
-    //text-align:center;
+    text-align:center;
 
 }
 #login
 {
     float: right;
+}
+#logout,#login
+{
+    background: url(menu.png);
+    color: #ffffff;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    box-shadow:inset 0px 1px 8px 0px #bbdaf7;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #000000), color-stop(1, #303030) );
+    border-radius:6px;
+    border:1px solid #303030;
+}
+#login_err
+{
+    font-family:arial;
+    font-weight:bold;
+    color: red;
+    font-size: small;
 }
