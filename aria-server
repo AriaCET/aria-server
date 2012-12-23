@@ -1,0 +1,31 @@
+#!/bin/sh
+
+function usage(){
+
+echo "Usage: $0 [OPTIONS]                           " 
+echo "-s --setup	Create configuration data   "
+echo "-h, --help	Display this help and exit. "
+}
+ARIA_SERVER_DIR=src/
+
+if [ $# -eq 0 ] ; then
+	/usr/bin/env python2 ${ARIA_SERVER_DIR}/main.py
+	exit 0
+fi
+
+if [ $# -gt 1 ] ; then
+        usage
+        exit 0
+fi
+
+case "$1" in
+--setup|-s)
+	/usr/bin/env python2 ${ARIA_SERVER_DIR}/install.py
+	exit 0
+;;
+--help|-h|*)
+	usage
+	exit 0
+;;
+esac
+

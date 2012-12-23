@@ -32,7 +32,6 @@ def create_key():
                 os.makedirs(configDir)
         except OSError:
                 pass
-        file = open(datapath,"w")
         pashash = md5.new()
         list = []
         username = str(raw_input("Enter Username:"))
@@ -44,6 +43,7 @@ def create_key():
         password = pashash.hexdigest()
         list.append(username)
         list.append(password)
+        file = open(datapath,"w")
         pickle.dump(list,file)
         file.close()
         return 1

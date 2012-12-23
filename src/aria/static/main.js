@@ -110,7 +110,7 @@ function deleteChannel(channelid){
 }
 function reloadDialplan(){
     $.get('/reloaddialplan/',function(data){
-	   		if(data !="Done.") alert(data);
+	   		alert(data);
 	       //todo: check for server errors.
 	   });
 }

@@ -139,9 +139,9 @@ def reloadHandle():
         server = asterisk();
         try:
             server.reloadDialplan();
-            return "Done."
+            return "Server Reloaded ."
         except Exception, e:
-            return "Error"
+            return "Error!:"
     else:
         return authfail
 
