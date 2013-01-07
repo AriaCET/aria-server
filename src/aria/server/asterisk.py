@@ -1,45 +1,15 @@
 import sqlite3
-import os
 import config
 import subprocess
+import connection
 
-class connection:
-        def __init__(self):
-                print "Connection object created"
+class asterisk(object):
 
-        def connectDB(self,DBpath=config.DB_path):
-
-                if not(os.path.exists(os.path.dirname(DBpath))):
-                        raise IOError('Invalid database path_1')
-
-                if(os.path.exists(DBpath)):
-                        try:
-                                conn=sqlite3.connect(DBpath)
-                                return conn
-                        except sqlite3.OperationalError:
-                                raise IOError('Unable to connect to database')
-                else:
-                        conn = sqlite3.connect(DBpath)
-                        c = conn.cursor()
-                        c.execute('create table clients(ClientID integer primary key,ClientName text,IP text not null)')
-                        c.execute('create table groups(GroupID integer primary key,GroupName text)')
-                        c.execute('create table assoc(cID integer,gID integer,primary key(cID,gID))')
-                        c.executescript("""
-                                create table clientconfig(password text);
-                                insert into clientconfig(password) values ('welcome');
-                                """)
-
-                        conn.commit()
-                        return conn
-#raise IOError('Invalid database path');
-
-
-class asterisk:
-
-        connect = connection()
+        def __init__( self,DBpath=config.DB_path):
+                self.DBpath = DBpath
 
         def getPassword(self):
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("select password from clientconfig")
                 password = c.fetchone()[0]
@@ -47,7 +17,7 @@ class asterisk:
 
         def getClientsList(self):
 
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("select * from clients")
                 clientlist=[]
@@ -57,7 +27,7 @@ class asterisk:
                 return clientlist
 
         def getClientsInGroup(self, group):
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("select ClientID, ClientName, gID from clients left join (select * from assoc where gID = {0}) on clients.ClientID = cID".format(group))
                 clientlist=[]
@@ -67,7 +37,7 @@ class asterisk:
 
         def deleteClient(self,cID):
 
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("delete from clients where ClientID = {0}".format(cID))
                 c.execute("delete from assoc where cID = {0}".format(cID))
@@ -76,7 +46,7 @@ class asterisk:
 
         def addClient(self,c_id,name,ip):
 
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 if len(ip) == 0:
                         #set default IP
@@ -87,7 +57,7 @@ class asterisk:
 
         def getGroupsList(self):
 
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("select * from groups")
                 grouplist = []
@@ -98,7 +68,7 @@ class asterisk:
 
         def addGroup(self,g_id,gname):
 
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("insert into groups values ( {0}, '{1}' )".format(g_id,gname))
                 conn.commit();
@@ -106,7 +76,7 @@ class asterisk:
 
         def deleteGroup(self,groupID):
 
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("delete from groups where GroupID = '{0}'".format(groupID))
                 c.execute("delete from assoc where cID = '{0}'".format(groupID));
@@ -114,7 +84,7 @@ class asterisk:
                 c.close();
 
         def addClientToGroup(self,c_id,g_id):
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("insert into assoc values ( {0}, {1} )".format(c_id,g_id))
                 conn.commit();
@@ -122,22 +92,40 @@ class asterisk:
 
         def deleteClientFromGroup(self,c_id,g_id):
 
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("delete from assoc where cID = {0} and gID = {1}".format(c_id,g_id))
                 conn.commit();
                 c.close();
 
         def getchname(self,group):
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("select GroupName from groups where GroupID = {0} ".format(group))
                 for name in c:
                         return name[0];
         def reloadClientConf(self):
                 password = self.getPassword()
-                manifest='''[general]\ncontext=unauthenticated\nallowguest=no\nsrvlookup=yes\nudpbindaddr=0.0.0.0\ntcpenable=no\n\n'''
-                context="[overhead](!)\ntype=friend\ncontext=LocalSets\nhost=dynamic\nnat=yes\nsecret="+ password+"\ndtmfmode=auto\ndisallow=all\nallow=ulaw\n\n"
+                manifest="""
+                        [general]
+                        context=unauthenticated
+                        allowguest=no
+                        srvlookup=yes
+                        udpbindaddr=0.0.0.0
+                        tcpenable=no
+                        """
+                context="""
+                        [overhead](!)
+                        ntype=friend
+                        context=LocalSets
+                        host=dynamic
+                        nat=yes
+                        secret="{password}"
+                        dtmfmode=auto
+                        disallow=all
+                        allow=ulaw
+                        """
+                context=context.format(password=password)
                 sipfile = open(config.clientConf,"w")
                 sipfile.write(manifest)
                 sipfile.write(context)
@@ -170,7 +158,7 @@ class asterisk:
 
                 extfile.close()
         def setpassword(self,password):
-                conn = self.connect.connectDB()
+                conn = connection.connectDB(self.DBpath)
                 c = conn.cursor()
                 c.execute("delete from clientconfig")
                 c.execute("insert into clientconfig(password) values ('{0}')".format(password))
