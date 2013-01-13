@@ -106,29 +106,14 @@ class asterisk(object):
                         return name[0];
         def reloadClientConf(self):
                 password = self.getPassword()
-                manifest="""
-                        [general]
-                        context=unauthenticated
-                        allowguest=no
-                        srvlookup=yes
-                        udpbindaddr=0.0.0.0
-                        tcpenable=no
-                        """
-                context="""
-                        [overhead](!)
-                        ntype=friend
-                        context=LocalSets
-                        host=dynamic
-                        nat=yes
-                        secret="{password}"
-                        dtmfmode=auto
-                        disallow=all
-                        allow=ulaw
-                        """
-                context=context.format(password=password)
+                manifest = "[general]\ncontext=unauthenticated\nallowguest=no\nsrvlookup=yes \nudpbindaddr=0.0.0.0\ntcpenable=no"
+                context = "[overhead](!)\ntype=friend\ncontext=LocalSets\nhost=dynamic\nnat=yes\nsecret={password}\ndtmfmode=auto\ndisallow=all\nallow=ulaw"
+                context = context.format(password=password)
                 sipfile = open(config.clientConf,"w")
                 sipfile.write(manifest)
+                sipfile.write("\n\n")
                 sipfile.write(context)
+                sipfile.write("\n\n")
 
                 # Write the clients
                 clients = self.getClientsList()
