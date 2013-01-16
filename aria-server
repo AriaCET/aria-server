@@ -6,10 +6,10 @@ echo "Usage: $0 [OPTIONS]                           "
 echo "-s --setup	Create configuration data   "
 echo "-h, --help	Display this help and exit. "
 }
-ARIA_SERVER_DIR=src/
+ARIASERVERDIR=src/
 
 if [ $# -eq 0 ] ; then
-	/usr/bin/env python2 ${ARIA_SERVER_DIR}/main.py
+	/usr/bin/env python2 ${ARIASERVERDIR}/main.py
 	exit 0
 fi
 
@@ -20,7 +20,7 @@ fi
 
 case "$1" in
 --setup|-s)
-	/usr/bin/env python2 ${ARIA_SERVER_DIR}/install.py
+	/usr/bin/env python2 ${ARIASERVERDIR}/install.py
 	exit 0
 ;;
 --help|-h|*)
