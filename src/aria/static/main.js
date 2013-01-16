@@ -44,15 +44,33 @@ function addSpeaker()
 	}
 
 }
-function changePassword(){
+function changeSpeakerPassword(){
 	if ( $('#password').val() ){
 		if ( $('#password').val() == $('#rpassword').val() ) {
 			var password_val = $('#password').val();
 			var rpassword_val = $('#rpassword').val();
-			$.post('/changepassword',{password:password_val,rpassword:rpassword_val},
+			$.post('/speakerpassword',{password:password_val,rpassword:rpassword_val},
 				function(data){
 					if(data !="Done.") alert(data);
 					//todo: check for server errors.
+					speakerManager();
+			});
+		}else{
+			alert('Passwords do not match !');
+		}
+	}else{
+		alert('Empty password is not Perminted!');
+	}
+}
+
+function changePassword(){
+	if ( $('#password').val() ){
+		if ( $('#password').val() == $('#rpassword').val() ) {
+			var username_val = $('#username').val()
+			var password_val = $('#password').val();
+			var rpassword_val = $('#rpassword').val();
+			$.post('/changepassword',{username:username_val,password:password_val,rpassword:rpassword_val},
+				function(data){
 					speakerManager();
 			});
 		}else{
@@ -85,20 +103,30 @@ function editChannel(channel){
 function speakerManager(){
     document.getElementById("speaker_man_link_block").style.fontWeight = 'bold';
     document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
-    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';   
+    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';   
     $('#main_block').load('/listspeakers');
 }
 function channelManager(){
 	document.getElementById("channel_man_link_block").style.fontWeight = 'bold';
 	document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
     document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';
 	$('#main_block').load('/channelmanager');
 }
-function passwordManager(){
+function speakerpassword(){
 	document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'bold';
 	document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
-    document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';	
-	$('#main_block').load('/passwordmanager');
+    document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';	
+	$('#main_block').load('/speakerpassword');
+}
+function passwordmanager(){
+	document.getElementById("change_pass_man_link_block").style.fontWeight = 'bold';
+	document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';	
+	$('#main_block').load('/changepassword');
 }
 function deleteChannel(channelid){
     $.post('/removechannel/',{channel:channelid},

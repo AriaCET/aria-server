@@ -1,9 +1,14 @@
 #!/usr/bin/python2
 from flask import request,make_response,Flask,render_template,redirect,url_for,send_from_directory
-from asterisk import *
-import accs_control as key
+from server.asterisk import asterisk as asterisk
+import server.accs_control as key
+
+
+DEBUG = True
 
 app = Flask(__name__)
+app.config.from_object(__name__)
+
 authfail = "Please Login and try again."
 root = '/'
 
@@ -145,24 +150,43 @@ def reloadHandle():
     else:
         return authfail
 
-@app.route('/passwordmanager/')
-def passwordmanager():
+
+@app.route('/speakerpassword/')
+@app.route('/speakerpassword',methods=['GET','POST'])
+def speakerpasswordmanager():
     if auth():
-        return render_template("passwordmanager.html")
+        if request.method == 'POST':
+            password = request.form['password']
+            rpassword = request.form['rpassword']
+            if password == rpassword :
+                server = asterisk()
+                server.setpassword(password)
+                return "Done."
+            else:
+                return "Error"
+        else:
+            return render_template("speakerpassword.html")
     else:
         return authfail
 
-@app.route('/changepassword',methods=["POST"])
-def function():
+@app.route('/changepassword/')
+@app.route('/changepassword',methods=['GET','POST'])
+def passwordmanager():
     if auth():
-        password = request.form['password']
-        rpassword = request.form['rpassword']
-        if password == rpassword :
-            server = asterisk()
-            server.setpassword(password)
-            return "Done."
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            rpassword = request.form['rpassword']
+            if password == rpassword :
+                key.updateKey(username,password)
+                resp = make_response(redirect(root))
+                resp.set_cookie('username',username)
+                resp.set_cookie('password',password)
+                return resp
+            else:
+                return "Error"
         else:
-            return "Error"
+            return render_template("passwordmanager.html")
     else:
         return authfail
 
