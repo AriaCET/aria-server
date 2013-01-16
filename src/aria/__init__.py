@@ -4,7 +4,7 @@ from server.asterisk import asterisk as asterisk
 import server.accs_control as key
 
 
-DEBUG = True
+DEBUG = False
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -195,5 +195,5 @@ def favicon():
     return send_from_directory(app.root_path+'/static','favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = False
     app.run(host='0.0.0.0')

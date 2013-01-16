@@ -2,5 +2,7 @@
 
 import aria
 
-aria.app.Debug = True
-aria.app.run(host="0.0.0.0")
+HOST='127.0.0.1'
+PORT=5000
+aria.app.Debug = False
+aria.app.run(host=HOST,port=PORT)
