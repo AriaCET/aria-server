@@ -3,8 +3,7 @@ import os
 
 def connectDB(DBpath):
         if not(os.path.exists(os.path.dirname(DBpath))):
-                raise IOError('Invalid database path_1')
-
+                os.makedirs(os.path.dirname(DBpath))
         if(os.path.exists(DBpath)):
                 try:
                         conn=sqlite3.connect(DBpath)
@@ -12,7 +11,11 @@ def connectDB(DBpath):
                 except sqlite3.OperationalError:
                         raise IOError('Unable to connect to database')
         else:
-                conn = sqlite3.connect(DBpath)
+                try:
+                        conn = sqlite3.connect(DBpath)
+                except Exception, e:
+                        print e
+                        raise
                 c = conn.cursor()
                 print "Creating DB"
                 c.executescript("""

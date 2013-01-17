@@ -3,11 +3,10 @@ from flask import request,make_response,Flask,render_template,redirect,url_for,s
 from server.asterisk import asterisk as asterisk
 import server.accs_control as key
 
-
-DEBUG = False
+#DEBUG = True
 
 app = Flask(__name__)
-app.config.from_object(__name__)
+#app.config.from_object(__name__)
 
 authfail = "Please Login and try again."
 root = '/'
@@ -194,6 +193,3 @@ def passwordmanager():
 def favicon():
     return send_from_directory(app.root_path+'/static','favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-if __name__ == '__main__':
-    app.debug = False
-    app.run(host='0.0.0.0')
