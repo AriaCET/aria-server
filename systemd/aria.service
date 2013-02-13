@@ -1,0 +1,10 @@
+[Unit]
+Description=ARIA demon
+Requires=asterisk.service
+
+[Service]
+ExecStart=/usr/bin/aria-server
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
