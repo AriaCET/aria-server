@@ -1,0 +1,30 @@
+<!doctype html>
+<br/>
+<div id = "adduser_div">
+  Number:<input type="text" id="inputusernumber"/>
+  Name:<input type="text" id="inputusername"/>
+  IP:<input type="text" id="inputuserip"/>
+  <input type="Button" value="Add user" onclick="addUser();"/>
+</div>
+<br/>
+{% if users %}
+<hr/>
+<table id="user_list_table">
+  <tr class="table_header">
+    <td>Number<hr/></td><td>Name<hr/></td><td>IP<hr/></td><td>Action<hr/></td>
+  </tr>
+  {% for user in users %}
+  <tr>
+    <td>{{ user[0] }} </td>
+    <td> {{user[1]}} </td>
+    <td> {{user[2]}} </td>
+    <td> <a href = '/removeuser/{{ user[0] }}'><img width=16 src="{{ url_for('static', filename='delete.png') }}" />&nbsp;Delete</a></td>
+ </tr>
+  {% endfor %}
+</table>
+<hr/>
+{% else %}
+    <hr/>
+    <b>No users Found</b>
+    <hr/>
+{% endif %}

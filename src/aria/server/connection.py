@@ -20,6 +20,7 @@ def connectDB(DBpath):
                 print "Creating DB"
                 c.executescript("""
                         create table clients(ClientID integer primary key,ClientName text,IP text not null);
+                        create table users(userID integer primary key,userName text,IP text not null);
                         create table groups(GroupID integer primary key,GroupName text);
                         create table assoc(cID integer,gID integer,primary key(cID,gID));
                         create table clientconfig(password text);

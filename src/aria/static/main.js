@@ -44,6 +44,34 @@ function addSpeaker()
 	}
 
 }
+
+function addUser()
+{
+    if( $('#inputusernumber').val()) {
+    	if( $('#inputusername').val() ) {
+			if($('#inputusernumber').val() > 300 && $('#inputusernumber').val() <500) {
+				    var user_number = $('#inputusernumber').val();
+				    var user_name = $('#inputusername').val();
+			    	var user_ip = $('#inputuserip').val();
+			   		//todo: add form validation.
+			    	$.post('/adduser',{number:user_number,name:user_name,ip:user_ip},
+					   function(data){
+				    	   //todo: check for server errors.
+				    	   if(data !="Done.") alert(data);
+				    	   userManager();
+				   	});
+			}else {
+				alert('Number should be in the range 301-499');
+			}
+		}else {
+			alert('Name field empty!');
+		}
+	}else {
+		alert('Number field empty!');
+	}
+
+}
+
 function changeSpeakerPassword(){
 	if ( $('#password').val() ){
 		if ( $('#password').val() == $('#rpassword').val() ) {
@@ -104,7 +132,8 @@ function speakerManager(){
     document.getElementById("speaker_man_link_block").style.fontWeight = 'bold';
     document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
     document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
-    document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';   
+    document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("user_man_link_block").style.fontWeight = 'normal';
     $('#main_block').load('/listspeakers');
 }
 function channelManager(){
@@ -112,22 +141,34 @@ function channelManager(){
 	document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
     document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
     document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("user_man_link_block").style.fontWeight = 'normal';
 	$('#main_block').load('/channelmanager');
 }
 function speakerpassword(){
 	document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'bold';
 	document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
     document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
-    document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';	
+    document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("user_man_link_block").style.fontWeight = 'normal';	
 	$('#main_block').load('/speakerpassword');
 }
 function passwordmanager(){
 	document.getElementById("change_pass_man_link_block").style.fontWeight = 'bold';
 	document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
     document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
-    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';	
+    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("user_man_link_block").style.fontWeight = 'normal';	
 	$('#main_block').load('/changepassword');
 }
+function userManager(){
+	document.getElementById("user_man_link_block").style.fontWeight = 'bold';
+    document.getElementById("speaker_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("channel_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("speaker_pass_man_link_block").style.fontWeight = 'normal';
+    document.getElementById("change_pass_man_link_block").style.fontWeight = 'normal';   
+    $('#main_block').load('/adduser');
+}
+
 function deleteChannel(channelid){
     $.post('/removechannel/',{channel:channelid},
 	   function(data){

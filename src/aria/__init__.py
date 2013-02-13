@@ -52,7 +52,32 @@ def speakerAddHandle():
             result = server.addClient(request.form['number'],request.form['name'],request.form['ip'])
             return "Done."
         except Exception ,e:
-            return "Speakers Not Added"
+            return "Speakers Not Added"+str(e)
+    else:
+        return authfail
+
+@app.route('/adduser/')
+@app.route('/adduser',methods=["POST","GET"])
+def addUserHandle():
+    if auth():
+        server = asterisk();
+        if request.method == 'POST':
+            try:
+                result = server.addUser(request.form['number'],request.form['name'],request.form['ip'])
+                return "Done."
+            except Exception ,e:
+                return "User Not Added "
+        else:
+            return render_template("usermanagelist.html",users=server.getUserList())
+    else:
+        return authfail
+
+@app.route('/removeuser/<user>')
+def removeUserHandle(user):
+    if auth():
+        server = asterisk();
+        server.deleteuser(user);
+        return redirect(root)
     else:
         return authfail
 
@@ -145,7 +170,7 @@ def reloadHandle():
             server.reloadDialplan();
             return "Server Reloaded ."
         except Exception, e:
-            return "Error!:"
+            return "Error!:"+str(e)
     else:
         return authfail
 

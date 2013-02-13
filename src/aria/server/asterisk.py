@@ -55,6 +55,37 @@ class asterisk(object):
                 conn.commit()
                 c.close()
 
+        def addUser(self,uid,name,ip):
+
+                conn = connection.connectDB(self.DBpath)
+                c = conn.cursor()
+                if len(ip) == 0:
+                        #set default IP
+                        pass 
+                c.execute("insert into users values ( {0}, '{1}', '{2}')".format(uid,name,ip))
+                conn.commit()
+                c.close()
+
+        def deleteUser(self,cID):
+
+                conn = connection.connectDB(self.DBpath)
+                c = conn.cursor()
+                c.execute("delete from users where ClientID = {0}".format(cID))
+                conn.commit()
+                c.close()
+
+
+        def getUserList(self):
+
+                conn = connection.connectDB(self.DBpath)
+                c = conn.cursor()
+                c.execute("select * from users")
+                userlist=[]
+                for name in c :
+                        userlist.append(name)
+
+                return userlist
+
         def getGroupsList(self):
 
                 conn = connection.connectDB(self.DBpath)
@@ -117,13 +148,22 @@ class asterisk(object):
 
                 # Write the clients
                 clients = self.getClientsList()
-
                 for client in clients:
                         tmpstr = "\n["+str(client[0])+"](overhead)\t; Name:"+ client[1]+"\n"
                         sipfile.write(tmpstr)
                         if len(client[2]) != 0:
                                 tmpstr="host="+client[2]+"\n"
                                 sipfile.write(tmpstr)
+
+                sipfile.write("\n;Client Users\n")
+                users = self.getUserList()
+                for user in users:
+                        tmpstr = "\n["+str(user[0])+"](overhead)\t; Name:"+ user[1]+"\n"
+                        sipfile.write(tmpstr)
+                        if len(user[2]) != 0:
+                                tmpstr="host="+user[2]+"\n"
+                                sipfile.write(tmpstr)
+
                 sipfile.close()
 
         def reloadChannelConf(self):
