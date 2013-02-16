@@ -1,21 +1,20 @@
 <!doctype html>
 <table>
-  <tr class="table_header"><td>{{channelname}}</td></tr>
+  <tr class="table_header">
+	<td>Channel-Name : {{channelname}}</td>
+	<td>| Speaker-Name</td>
+	<td>| Action</td>
+  </tr>
   {% for speaker in speakers%}
   <tr>
-    <td>
+    <td></td>
       {% if speaker[2] %}
-      <div class = "speakerinchannel">
-	{{speaker[1]}}
-      	<a href = "#" onclick= "removeFromChannel({{speaker[0]}},{{channel}});" >Remove</a>
-      </div>
+      <td class = "speakerinchannel">&nbsp;&nbsp;{{speaker[1]}}</td>
+      <td>&nbsp;&nbsp;<img width=16 src="{{ url_for('static', filename='delete.png') }}" />&nbsp;<a href = "#" onclick= "removeFromChannel({{speaker[0]}},{{channel}});" >Remove</a></td>
       {% else %}
-      <div class = "speakernotinchannel">
-	{{speaker[1]}}
-      	<a href = "#" onclick= "addToChannel({{speaker[0]}},{{channel}});" >Add</a>
-      </div>
+      <td class = "speakernotinchannel">&nbsp;&nbsp;{{speaker[1]}}</td>
+      <td>&nbsp;&nbsp;<img width=16 src="{{ url_for('static', filename='add.png') }}" />&nbsp;<a href = "#" onclick= "addToChannel({{speaker[0]}},{{channel}});" >Add</a></td>
       {% endif %}
-    </td>
   </tr>
   {% endfor %}
 </table>

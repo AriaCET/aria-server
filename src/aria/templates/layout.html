@@ -3,26 +3,54 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 <script type=text/javascript src="{{ url_for('static', filename='jquery.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='main.js') }}"></script>
-<body onload = "speakerManager();">
+{% if logedin == false %}
+<body>
   <div id = "title_block">ARIA Server</div>
-  {% if logedin == false %}
+  <div id = "title_block_t"></div>
   <form id = "auth_form" method = "POST" action = "/login">
     <table>
       <tr><td>Username</td><td> <input type = "text" name = "username"/></td></tr>
       <tr><td>Password</td><td><input type = "password" name = "password"/></td></tr>
       <tr><td colspan="2"><input type = "submit" value = "Login" id='login'/></td></tr>
+      {% if loginFailed == True %}
+      <tr><td colspan="2" id ="login_err">The username or password is incorrect.</td></tr>
+      {% endif %}
     </table>
   </form>
-  {% else %}
+{% else %}
+<body onload = "speakerManager();">
+  <div id = "title_block">ARIA Server</div>
   <form id = "logout_form" action = "/logout">
-    <input type = "submit" value = "Logout" />
+    <input type = "submit" id ="logout" value = "Logout" />
   </form>
+  <div id = "title_block_t"></div>
+  <br/>
   <div id = "navigation_block">
-    <div id = "speaker_man_link_block"><a href = "#" OnClick = "speakerManager();">Manage Speakers</a></div>
-    <div id = "channel_man_link_block"><a href = "#" OnClick = "channelManager();">Manage Channels</a></div>
+    <div id = "speaker_man_link_block"><a href = "#" OnClick = "speakerManager();"><img width=16 src="{{ url_for('static', filename='config.png') }}" />&nbsp;Manage Speakers</a></div>
+    <div id = "channel_man_link_block"><a href = "#" OnClick = "channelManager();"><img width=16 src="{{ url_for('static', filename='config.png') }}" />&nbsp;Manage Channels</a></div>
+    <div id = "user_man_link_block"><a href = "#" OnClick = "userManager();"><img width=16 src="{{ url_for('static', filename='config.png') }}" />&nbsp;Manage Users</a></div>
+    <div id = "speaker_pass_man_link_block"><a href = "#" OnClick = "speakerpassword();"><img width=16 src="{{ url_for('static', filename='config.png') }}" />&nbsp;Speaker Password</a></div>
+    <div id = "change_pass_man_link_block"><a href = "#" OnClick = "passwordmanager();"><img width=16 src="{{ url_for('static', filename='config.png') }}" />&nbsp;Change Password</a></div>
   </div>
   <div id = "main_block"></div>
   <div id = "reload_block"><input type = "Button" onClick = "reloadDialplan();" value = "Reload Dialplan." /></div>
   {% endif %}
-  <div id = "credits_block">Developed at Department of Computer Science and Engineering, College of Engineering Trivandrum.</div>
+  <div id = "footer">
+    <div id ="footer_t"></div>
+    <div style="background: #303030;float: right;">↑</div>
+    <div style="background: #303030;float: left;">↑</div>
+    <div id="credits_hidden_block" align="center">
+      <b>Credits</b>
+      <hr width="33%"/>
+      <table class ="footer_table" align="center">
+        <tr><td>Dhananjay M Balan </td><td>Deepak Krishnan </td><td>Melwin Jose </td></tr>
+        <tr><td>Abil N George </td><td>Thomas Abraham </td><td>Sujith G </td></tr>
+      </table>
+      <hr width="100%"/>
+    </div>
+    <div id="credits_block">
+      Developed at Department of Computer Science and Engineering,<br/>
+      <a href='http://cet.ac.in'>College of Engineering, Trivandrum.</a>
+    </div>
+  </div>
 </body>

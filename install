@@ -1,0 +1,64 @@
+#! /bin/sh
+
+usage="\
+Usage: $0 [DESTDIR]
+
+install ARIA server
+if DESTDIR is given aria-server will be install into DESTDIR,
+else aria-server will be install into '/'
+"
+
+DATADIR="/usr/share/aria-server"
+BINDIR="/usr/bin"
+SYSTEMDLIB="/usr/lib/systemd/system"
+ASTERISKCONFIGDIR="/etc/asterisk/"
+ARIACONFIGDIR="/etc/aria-server/"
+SRCDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if [ $# -gt 1 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
+    echo "$usage"
+    exit 1
+fi
+
+if [ $# -eq 0 ] ; then
+	DESTDIR=""
+	if [ $UID -ne 0 ] ;then
+		echo "Error: you cannot perform this operation unless you are root"
+		exit 1
+	fi
+else
+	DESTDIR="$1"
+fi
+
+echo "Starting..."
+sed s_ARIASERVERDIR=src/_ARIASERVERDIR=/usr/share/aria-server_ -i ${SRCDIR}/aria-server
+sed 10s/^$/'if [ $UID -ne 0 ] ; then \n echo "Error: you cannot perform this operation unless you are root";\n exit 1;\nfi'/ \
+	-i ${SRCDIR}/aria-server
+
+echo "Creating Directory...."
+install -d ${DESTDIR}${DATADIR} && \
+install -d ${DESTDIR}${ARIACONFIGDIR} && \
+echo -e "\tCreated"
+
+echo "Copying files...."
+cp -r ${SRCDIR}/src/* ${DESTDIR}${DATADIR}/ && \
+mv ${SRCDIR}/asterisk-conf/config.py ${DESTDIR}${DATADIR}/aria/server/config.py && \
+install --mode=755 -D ${SRCDIR}/aria-server ${DESTDIR}${BINDIR}/aria-server && \
+install -D -m 744 ${SRCDIR}/systemd/aria.service ${DESTDIR}${SYSTEMDLIB}/aria.service &&\
+echo -e "\tFinished"
+
+echo "Copying Config files...."
+if [ -d ${DESTDIR}${ASTERISKCONFIGDIR} ] ; then
+	echo "backup.. old configuation files"
+	mkdir ${DESTDIR}${ASTERISKCONFIGDIR}/config.old
+	for file in `ls ${DESTDIR}${ASTERISKCONFIGDIR}`
+	do
+		test -f "/etc/asterisk/$file" && \
+			mv ${DESTDIR}${ASTERISKCONFIGDIR}/$file ${DESTDIR}${ASTERISKCONFIGDIR}/config.old/
+	done
+else
+	install -d ${DESTDIR}${ASTERISKCONFIGDIR}
+fi 
+cp ${SRCDIR}/asterisk-conf/* ${DESTDIR}${ASTERISKCONFIGDIR}/ &&\
+echo -e "\tFinished"
+exit 0

@@ -1,24 +1,37 @@
 <!doctype html>
+<br/>
 <div id="add_channel_block">
   Number:<input type = "text" id = "inputchannelid"/>
   Channel Name:<input type = "text" id = "inputchannelname"/>
   <input type = "button" value = "Add Channel" onclick = "addChannel();" />
 </div>
-<table id="channel_list_table">
+<br/>
+{% if channels %}
+<hr/>
+<br/>
+<table id="channel_list_table" border=0>
   <tr class="table_header">
     <td>Channel Name</td>
     <td>Number</td>
-    <td>Channel Actions</td>
+    <td>Channel</td>
+    <td>Actions</td>
+	
   </tr>
   {% for channel in channels%}
   <tr>
     <td>{{channel[1]}}</td>
     <td>{{channel[0]}}</td>
-    <td>
-      <a class = "edit" href = "#" onclick = "editChannel({{ channel[0] }});">Edit</a> &nbsp;
-      <a class = "delete" href = "#" onclick = "deleteChannel({{ channel[0] }});">Delete</a>
-    </td>
+    <td><img width=16 src="{{ url_for('static', filename='edit.gif') }}" />&nbsp;<a class = "edit" href = "#" onclick = "editChannel({{ channel[0] }});">Edit</a></td> 
+    <td><img width=16 src="{{ url_for('static', filename='delete.png') }}" />&nbsp;<a class = "delete" href = "#" onclick = "deleteChannel({{ channel[0] }});">Delete</a></td>
   </tr>
   {% endfor %}
 </table>
+<br/><br/><br/><br/><br/>
+<hr/>
+<br/>
 <div id = "speakers_in_channel_block"></div>
+{% else %}
+    <hr/>
+    <b>No Channels Found</b>
+    <hr/>
+{% endif %}
