@@ -44,7 +44,7 @@ echo "Copying files...."
 cp -r ${SRCDIR}/src/* ${DESTDIR}${DATADIR}/ && \
 mv ${SRCDIR}/asterisk-conf/config.py ${DESTDIR}${DATADIR}/aria/server/config.py && \
 install --mode=755 -D ${SRCDIR}/aria-server ${DESTDIR}${BINDIR}/aria-server && \
-install -D -m 744 ${srcdir}/aria.service ${DESTDIR}${SYSTEMDLIB}/aria.service &&\
+install -D -m 744 ${srcdir}/systemd/aria.service ${DESTDIR}${SYSTEMDLIB}/aria.service &&\
 echo -e "\tFinished"
 
 echo "Copying Config files...."
