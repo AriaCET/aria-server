@@ -12,6 +12,7 @@ DATADIR="/usr/share/aria-server"
 BINDIR="/usr/bin"
 SYSTEMDLIB="/usr/lib/systemd/system"
 ASTERISKCONFIGDIR="/etc/asterisk/"
+ARIACONFIGDIR="/etc/aria-server/"
 SRCDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -gt 1 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
@@ -36,6 +37,7 @@ sed 10s/^$/'if [ $UID -ne 0 ] ; then \n echo "Error: you cannot perform this ope
 
 echo "Creating Directory...."
 install -d ${DESTDIR}${DATADIR} && \
+install -d ${DESTDIR}${ARIACONFIGDIR}
 echo -e "\tCreated"
 
 echo "Copying files...."
