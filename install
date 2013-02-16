@@ -37,7 +37,7 @@ sed 10s/^$/'if [ $UID -ne 0 ] ; then \n echo "Error: you cannot perform this ope
 
 echo "Creating Directory...."
 install -d ${DESTDIR}${DATADIR} && \
-install -d ${DESTDIR}${ARIACONFIGDIR}
+install -d ${DESTDIR}${ARIACONFIGDIR} && \
 echo -e "\tCreated"
 
 echo "Copying files...."
