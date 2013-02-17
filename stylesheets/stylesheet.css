@@ -16,6 +16,14 @@ body {
   margin: 0 auto;
 }
 
+.footer {
+  text-align: center;
+  width: 90%;
+  max-width: 650px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
 section {
   display: block;
   margin: 0 0 20px 0;

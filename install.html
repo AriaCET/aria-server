@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Asterisk RadIo Archetecture by dhananjaynav</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Asterisk RadIo Archetecture</h1>
+        <h2>Asterisk based Public Addressing System </h2>
+
+        <section id="downloads">
+          <a href="https://github.com/dhananjaynav/aria-server/zipball/master" class="btn">Download as .zip</a>
+          <a href="index.html" class="btn">Home</a>
+          <a href="https://github.com/dhananjaynav/aria-server" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h2>Setting up the system.</h2>
+        <h3>Dependencies</h3>
+        <ul>
+          <li><a href="http://www.python.org/getit/releases/2.7/">Python 2</a></li>
+          <li><a href="http://www.asteriskdocs.org/en/3rd_Edition/asterisk-book-html-chunk/asterisk-Install.html">Asterisk</a></li>
+          <li><a href="http://pypi.python.org/pypi/Flask">Python-Flask</a></li>
+        </ul>
+
+        <h3> Installing Aria</h3>
+        <ol>
+          <li>Install Asterisk as given <a href="http://www.asteriskdocs.org/en/3rd_Edition/asterisk-book-html-chunk/asterisk-Install.html">here</a></li>
+          <li>Install Python(2.7) and Python-flask.</li>
+          <li>Pull <strong>Aria</strong> from github.com and change branch to release.
+            <pre><code>
+$ git clone git://github.com/dhananjaynav/aria-server.git
+$ git checkout release
+            </code></pre>
+          </li>
+          <li>Run install
+            <pre><code>
+$ ./install
+            </code></pre>
+          </li>
+        </ol>
+
+        <h3>Setting File Permissions</h3>
+        <ol>
+          <li>Create a special User "asterisk"
+            <pre><code>
+$ groupadd -g 5060 asterisk
+$ useradd -u 5060 -d /var/lib/asterisk -g asterisk -s /bin/false asterisk
+$ passwd -l asterisk
+            </code></pre>
+          </li>
+          <li>Change the file permissions
+            <pre><code>
+$ chown -R asterisk:asterisk /var/run/asterisk
+$ chown -R asterisk:asterisk /var/log/asterisk
+$ chown -R asterisk:asterisk /var/spool/asterisk
+$ chown -R asterisk:asterisk /var/lib/asterisk
+$ chown -R asterisk:asterisk /etc/asterisk
+$ chown -R asterisk:asterisk /etc/aria-server
+            </code></pre>
+          </li>
+        </ol>
+
+        <h3>Running Aria</h3>
+        Aria is installed as a systemd service.</br>
+        <i>NB:default paswword and username is "admin"</i>
+      </section>
+    </div>
+    <div class="footer">
+      <p>Created for <a href="http://cet.ac.in">College Of Engineering, Trivandrum</a>, With financial assistance from <a href="http://cerd.cet.ac.in/">Centre for Engineering Research and Development</a>.
+      </p>
+    <div>
+  </body>
+</html>
