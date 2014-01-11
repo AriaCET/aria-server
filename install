@@ -1,34 +1,54 @@
-#! /bin/sh
+#! /bin/bash
 
 usage="\
-Usage: $0 [DESTDIR]
+Usage: $0 INIT_SYSTEM [DESTDIR]
 
 install ARIA server
+INIT_SYSTEM : valid options are
+      SYSTEMD : mostly in Fedora,Arch Linux etc 
+      INITD   : (init.d)Older System
+      UPSTART : Debian,Ubuntu etc
 if DESTDIR is given aria-server will be install into DESTDIR,
 else aria-server will be install into '/'
 "
 
+
+
 DATADIR="/usr/share/aria-server"
 BINDIR="/usr/bin"
 SYSTEMDLIB="/usr/lib/systemd/system"
+INITD_DIR="/etc/init.d"
+UPSTART_DIR="/etc/init"
 ASTERISKCONFIGDIR="/etc/asterisk/"
 ARIACONFIGDIR="/etc/aria-server/"
 SRCDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ $# -gt 1 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
+if ([ $# -ne 1 ] && [ $# -ne 2 ]) || [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
+echo "$#"
     echo "$usage"
     exit 1
 fi
 
-if [ $# -eq 0 ] ; then
+if [ $# -eq 1 ] ; then
 	DESTDIR=""
 	if [ $UID -ne 0 ] ;then
 		echo "Error: you cannot perform this operation unless you are root"
 		exit 1
 	fi
 else
-	DESTDIR="$1"
+	DESTDIR="$2"
 fi
+
+case "$1" in
+SYSTEMD|INITD|UPSTART)
+	INIT_SYSTEM="$1"
+;;
+*)
+	echo "$1\n $usage"
+	exit 1
+;;
+esac
+
 
 echo "Starting..."
 sed s_ARIASERVERDIR=src/_ARIASERVERDIR=/usr/share/aria-server_ -i ${SRCDIR}/aria-server
@@ -43,8 +63,24 @@ echo -e "\tCreated"
 echo "Copying files...."
 cp -r ${SRCDIR}/src/* ${DESTDIR}${DATADIR}/ && \
 cp ${SRCDIR}/asterisk-conf/config.py ${DESTDIR}${DATADIR}/aria/server/config.py && \
-install --mode=755 -D ${SRCDIR}/aria-server ${DESTDIR}${BINDIR}/aria-server && \
-install -D -m 744 ${SRCDIR}/daemon-scripts/systemd/aria.service ${DESTDIR}${SYSTEMDLIB}/aria.service &&\
+install --mode=755 -D ${SRCDIR}/aria-server ${DESTDIR}${BINDIR}/aria-server &&\
+echo -e "\tFinished"
+
+echo "Copying daemon-script"
+
+case "$INIT_SYSTEM" in
+SYSTEMD)
+	install -D -m 744 ${SRCDIR}/daemon-scripts/systemd/aria.service ${DESTDIR}${SYSTEMDLIB}/aria.service
+;;
+INITD)
+	install -D -m 755 ${SRCDIR}/daemon-scripts/init.d/aria-server ${DESTDIR}${INITD_DIR}/aria-server
+;;
+UPSTART)
+	install -D -m 744 ${SRCDIR}/daemon-scripts/upstart/aria-server.conf ${DESTDIR}${UPSTART_DIR}/aria-server.conf
+;;
+esac
+
+
 echo -e "\tFinished"
 
 echo "Copying Config files...."
