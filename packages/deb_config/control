@@ -1,0 +1,23 @@
+Source: aria-server
+Section: net
+Priority: extra
+Maintainer: Dhananjay Balan <mail@dbalan.in>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+Homepage: http://ariacet.github.io/aria-server/
+#Vcs-Git: git://git.debian.org/collab-maint/aria-server.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/aria-server.git;a=summary
+
+
+Package: aria-server
+Architecture: all
+Depends: ${misc:Depends},python (>= 2.7),python-flask,asterisk
+Description: Asterisk PA System - web interface
+ ARIA streamlines setting up of a network based public 
+ addressing system in an organisation. It uses the 
+ Asterisk Telephony server at the back and uses 
+ SIP/RTP protocols for data transfer.ARIA server
+ is simply an abstraction of the asterisk paging
+ system so that users can manage it without messing with
+ the asterisk configuration scripts.
+
