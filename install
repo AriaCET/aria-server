@@ -60,7 +60,7 @@ else
 	install -d ${DESTDIR}${ASTERISKCONFIGDIR}
 fi
 #copy all except config.py
-#find ${SRCDIR}/asterisk-conf/ ! -name config.py -exec cp {} ${DESTDIR}${ASTERISKCONFIGDIR}/ +
-cp ${SRCDIR}/asterisk-conf/* ${DESTDIR}${ASTERISKCONFIGDIR}/ &&\
+#find ${SRCDIR}/asterisk-conf/* ! -name config.py -exec 'cp {} ${DESTDIR}${ASTERISKCONFIGDIR}/' +
+cp ${SRCDIR}/asterisk-conf/*.conf ${DESTDIR}${ASTERISKCONFIGDIR}/ &&\
 echo -e "\tFinished"
 exit 0
